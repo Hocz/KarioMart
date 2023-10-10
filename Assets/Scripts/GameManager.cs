@@ -347,7 +347,6 @@ public class GameManager : MonoBehaviour
 
         player.accelerationSpeed -= amount;
         player.currentMaxSpeed -= amount;
-        player.currentBackingMaxSpeed -= amount;
         player.SetItemDisplayText(EItemEffect.NoItem);
     }
 

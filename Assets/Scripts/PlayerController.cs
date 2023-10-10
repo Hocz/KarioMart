@@ -28,9 +28,6 @@ public class PlayerController : MonoBehaviour
     public float currentMaxSpeed = 10f;
 
     [SerializeField]
-    public float currentBackingMaxSpeed = 5f;
-
-    [SerializeField]
     public float accelerationSpeed = 5f;
 
     [SerializeField]
@@ -38,9 +35,6 @@ public class PlayerController : MonoBehaviour
     
     [HideInInspector]
     private float currentMovementSpeed = 0f;
-
-    [HideInInspector]
-    private float currentMoveBackingSpeed = 0f;
     
     [HideInInspector]
     public float currentMoveDirection = 1f;
@@ -136,7 +130,6 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        //rigidbody2d.velocity = (rigidbody2d.transform.up * movementSpeed * input.moveDirValueProperty);
         if (canMovePlayer && timer.startRace)
         {
             CalculateMovementSpeed(input.MoveDirValueProperty);
@@ -144,17 +137,14 @@ public class PlayerController : MonoBehaviour
             {
                 currentMoveDirection += accelerationSpeed * Time.deltaTime;
                 //currentMoveDirection = Mathf.Clamp01(currentMoveDirection);
-                currentMoveDirection = Mathf.Clamp(currentMoveDirection, 0, 1);
-                
-                rigidbody2d.velocity = (rigidbody2d.transform.up * currentMovementSpeed * currentMoveDirection);
+                currentMoveDirection = Mathf.Clamp(currentMoveDirection, 0, 1); 
             }
             else if (input.MoveDirValueProperty < 0)
             {
                 currentMoveDirection -= accelerationSpeed * Time.deltaTime;
                 currentMoveDirection = Mathf.Clamp(currentMoveDirection, -1, 1);
-
-                rigidbody2d.velocity = (rigidbody2d.transform.up * currentMoveBackingSpeed * currentMoveDirection);
             }
+            rigidbody2d.velocity = (rigidbody2d.transform.up * currentMovementSpeed * currentMoveDirection);
         }
     }
 
@@ -168,15 +158,12 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(input.MoveDirValueProperty) > 0)
         {
             currentMovementSpeed += accelerationSpeed * Time.deltaTime;
-            currentMoveBackingSpeed += accelerationSpeed * Time.deltaTime;
         }
         else
         {
             currentMovementSpeed -= decelerationSpeed * Time.deltaTime;
-            currentMoveBackingSpeed -= decelerationSpeed * Time.deltaTime;
         }
         currentMovementSpeed = Mathf.Clamp(currentMovementSpeed, 0f, currentMaxSpeed);
-        currentMoveBackingSpeed = Mathf.Clamp(currentMovementSpeed, 0f, currentBackingMaxSpeed);
     }
 
     private void RotatePlayer()
@@ -202,7 +189,7 @@ public class PlayerController : MonoBehaviour
             decelerationSpeed = 10f;
             currentMovementSpeed -= decelerationSpeed * Time.deltaTime;
         }
-        else
+        else if (input.BreakValueProperty == false || playerIsBreaking == false)
         {
             decelerationSpeed = 5f;
         }

@@ -51,7 +51,7 @@ public class LapManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-        
+        if (!player) return;
         // Player 1 - Lap Counter
         if (player.GetPlayerIndex() == 0)
         {            

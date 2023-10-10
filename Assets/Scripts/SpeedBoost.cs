@@ -20,7 +20,6 @@ public class SpeedBoost : ItemEffect
         player.playerHasItem = true;
         player.accelerationSpeed += amount;
         player.currentMaxSpeed += amount;
-        player.currentBackingMaxSpeed += amount;
 
         gameManager.StartSpeedBoostCooldown(amount, playerTarget.gameObject);
     }

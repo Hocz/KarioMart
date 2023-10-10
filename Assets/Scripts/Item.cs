@@ -10,7 +10,7 @@ public class Item : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         player = collision.GetComponent<PlayerController>();
-
+        if (!player) return;
         gameObject.SetActive(false);
         if (player.playerHasItem == false)
         {
